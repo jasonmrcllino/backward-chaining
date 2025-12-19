@@ -81,7 +81,7 @@ export default function Home() {
         // Rumus: (Gejala Cocok / Total Gejala Penyakit Itu) * 100
         const confidence = (disease.matched / disease.total_symptoms) * 100;
         
-        // Kita anggap valid jika kecocokan di atas 0% (bisa dinaikkan jadi 50% jika mau lebih ketat)
+        // Kita anggap valid jika kecocokan di atas 0%
         if (confidence > highestScore && confidence > 0) {
           highestScore = confidence;
           bestMatch = {
@@ -100,7 +100,7 @@ export default function Home() {
         setDiagnosisResult({
           name: "Penyakit Tidak Teridentifikasi",
           solution: "Gejala yang Anda masukkan tidak cocok dengan pola penyakit manapun di database kami. Kemungkinan ini adalah gangguan fisiologis atau penyakit baru.",
-          severity: "low",
+          severity: "low", // Default aman
           confidence: 0
         });
       }
@@ -136,36 +136,82 @@ export default function Home() {
           </p>
         </header>
 
-        {/* === HASIL DIAGNOSA (Muncul jika sudah ada hasil) === */}
+        {/* === HASIL DIAGNOSA (Updated dengan Label Jelas) === */}
         {diagnosisResult && (
           <div className="mb-10 animate-fade-in-up">
             <div className={`
-              p-1 rounded-2xl bg-gradient-to-r shadow-2xl
-              ${diagnosisResult.severity === 'high' ? 'from-red-500 to-orange-500' : 'from-green-500 to-emerald-500'}
+              relative overflow-hidden p-1 rounded-2xl bg-gradient-to-r shadow-2xl
+              ${diagnosisResult.severity === 'high' ? 'from-red-600 to-orange-600' : 'from-emerald-500 to-teal-500'}
             `}>
-              <div className="bg-[#1e293b] p-6 rounded-xl">
-                <div className="flex justify-between items-start mb-4">
-                  <h2 className="text-2xl font-bold text-white">Hasil Diagnosa</h2>
-                  <span className="bg-white/10 px-3 py-1 rounded-full text-sm font-mono text-white">
-                    Akurasi {diagnosisResult.confidence}%
-                  </span>
-                </div>
-                
-                <h3 className={`text-3xl font-bold mb-4 ${diagnosisResult.severity === 'high' ? 'text-red-400' : 'text-green-400'}`}>
-                  {diagnosisResult.name}
-                </h3>
+              {/* Efek Glow Background */}
+              <div className="absolute inset-0 bg-white/5 blur-xl"></div>
 
-                <div className="bg-slate-900/50 p-4 rounded-lg border border-slate-700/50">
-                  <h4 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-2">Solusi & Penanganan</h4>
-                  <p className="text-slate-200 leading-relaxed">
+              <div className="relative bg-[#1e293b] p-6 rounded-xl">
+                
+                {/* --- HEADER HASIL --- */}
+                <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-6 border-b border-slate-700 pb-4">
+                  <div>
+                    <h2 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-1">
+                      Hasil Analisa Sistem
+                    </h2>
+                    <h3 className={`text-3xl font-extrabold ${diagnosisResult.severity === 'high' ? 'text-red-400' : 'text-emerald-400'}`}>
+                      {diagnosisResult.name}
+                    </h3>
+                  </div>
+
+                  {/* BADGE STATUS (Updated: whitespace-nowrap added) */}
+                  <div className="flex flex-col items-end gap-2">
+                    
+                    {/* 1. Label Tingkat Bahaya */}
+                    {diagnosisResult.severity === 'high' ? (
+                      <span className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-500/20 border border-red-500/50 text-red-200 text-xs font-bold uppercase tracking-widest shadow-lg shadow-red-900/20 whitespace-nowrap">
+                        <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        </svg>
+                        Bahaya / Kritis
+                      </span>
+                    ) : (
+                      <span className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/20 border border-emerald-500/50 text-emerald-200 text-xs font-bold uppercase tracking-widest shadow-lg shadow-emerald-900/20 whitespace-nowrap">
+                        <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        Ringan / Sedang
+                      </span>
+                    )}
+
+                    {/* 2. Label Akurasi */}
+                    <span className="text-xs text-slate-500 font-mono whitespace-nowrap">
+                      Tingkat Keyakinan: <span className="text-white">{diagnosisResult.confidence}%</span>
+                    </span>
+                  </div>  
+                </div>
+
+                {/* --- CONTENT SOLUSI --- */}
+                <div className="bg-slate-900/50 p-5 rounded-xl border border-slate-700/50">
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="p-1.5 bg-blue-500/20 rounded-lg">
+                      <svg className="w-5 h-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                      </svg>
+                    </div>
+                    <h4 className="text-sm font-bold text-slate-200 uppercase tracking-wide">
+                      Solusi Penanganan
+                    </h4>
+                  </div>
+                  
+                  <p className="text-slate-300 leading-relaxed text-sm sm:text-base border-l-2 border-slate-600 pl-4">
                     {diagnosisResult.solution}
                   </p>
                 </div>
 
+                {/* Tombol Ulang */}
                 <button 
                   onClick={resetDiagnosis}
-                  className="mt-6 w-full py-3 bg-slate-700 hover:bg-slate-600 text-white rounded-lg font-semibold transition"
+                  className="mt-6 w-full py-3 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 hover:text-white rounded-xl font-semibold transition-all duration-200 flex items-center justify-center gap-2 group"
                 >
+                  <svg className="w-4 h-4 group-hover:-rotate-180 transition-transform duration-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                  </svg>
                   Diagnosa Ulang
                 </button>
               </div>
