@@ -129,7 +129,7 @@ export default function Home() {
         {/* Header */}
         <header className="mb-10 text-center sm:text-left">
           <h1 className="text-4xl font-extrabold text-white mb-2 tracking-tight">
-            Sistem Pakar <span className="text-red-500">Cabai</span> 🌶️
+            Diagnosa Penyakit Tanaman <span className="text-red-500">Cabai</span>
           </h1>
           <p className="text-slate-400 text-lg">
             Diagnosa penyakit tanaman cabai Anda berdasarkan gejala fisik.
