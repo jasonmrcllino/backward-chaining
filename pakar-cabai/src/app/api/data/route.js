@@ -1,5 +1,5 @@
 // src/app/api/data/route.js
-import { getKnowledgeBase } from '../../../lib/db';
+import { getKnowledgeBase } from '../../../lib/database';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
