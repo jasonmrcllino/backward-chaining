@@ -1,5 +1,17 @@
 {
+  "name": "pakar-cabai",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
   "dependencies": {
-    "@vercel/postgres": "^0.10.0"
+    "@vercel/postgres": "^0.x.x",  
+    "react": "^18",
+    "react-dom": "^18",
+    "next": "14.x.x"
   }
 }
