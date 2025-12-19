@@ -1,0 +1,36 @@
+{
+  "goals": [
+    {
+      "id": "D01",
+      "diagnosis": "Power Supply (PSU) Rusak",
+      "rules": ["mati_total", "kabel_power_ok", "lampu_indikator_mati"]
+    },
+    {
+      "id": "D02",
+      "diagnosis": "Monitor / Kabel VGA Bermasalah",
+      "rules": ["pc_nyala", "layar_blank", "lampu_monitor_kedip"]
+    },
+    {
+      "id": "D03",
+      "diagnosis": "RAM (Memory) Error",
+      "rules": ["pc_nyala", "layar_blank", "bunyi_beep_panjang"]
+    },
+    {
+      "id": "D04",
+      "diagnosis": "Harddisk Rusak / Tidak Terbaca",
+      "rules": ["bisa_masuk_bios", "bunyi_klik_kasar", "os_not_found"]
+    }
+  ],
+  "questions": {
+    "mati_total": "Apakah komputer mati total (tidak ada tanda kehidupan)?",
+    "kabel_power_ok": "Apakah kabel power sudah dipastikan terpasang dengan erat?",
+    "lampu_indikator_mati": "Apakah lampu indikator pada casing PC mati total?",
+    "pc_nyala": "Apakah kipas CPU berputar atau ada tanda PC menyala?",
+    "layar_blank": "Apakah layar monitor gelap (blank) tidak menampilkan gambar?",
+    "lampu_monitor_kedip": "Apakah lampu power pada monitor berkedip-kedip?",
+    "bunyi_beep_panjang": "Apakah terdengar bunyi 'biiip' panjang berulang?",
+    "bisa_masuk_bios": "Apakah komputer bisa menampilkan logo merk atau masuk BIOS?",
+    "bunyi_klik_kasar": "Apakah terdengar bunyi 'klik-klik' kasar dari dalam casing?",
+    "os_not_found": "Apakah muncul pesan 'Operating System Not Found'?"
+  }
+}
